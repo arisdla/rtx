@@ -1,17 +1,15 @@
-name: Check Code
+name: CI
 
 on: [push, pull_request]
 
 jobs:
+
   check:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [14.x]
         #node-version: [12.x, 14.x]
-
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -28,6 +26,31 @@ jobs:
       id: eslint
       run: yarn eslint
       continue-on-error: true
-    - name: Check on failures
-      if: steps.prettier.outputs.status == 'failure' || steps.eslint.outputs.status == 'failure'
-      run: exit 1
+    - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Check on failures
+        if: steps.prettier.outputs.status == 'failure' || steps.eslint.outputs.status == 'failure'
+        run: exit 1
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+        #node-version: [12.x, 14.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install Modules
+      run: yarn
+    - name: Build
+      run: yarn run build --if-present
+    - name: Run Tests
+      run: yarn test
+      env:
+        CI: true
