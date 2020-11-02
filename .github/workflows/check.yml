@@ -21,6 +21,13 @@ jobs:
     - name: Install Modules
       run: yarn
     - name: Check Prettier
+      id: prettier
       run: yarn prettier-check
+      continue-on-error: true
     - name: Run ESLint
+      id: eslint
       run: yarn eslint
+      continue-on-error: true
+    - name: Check on failures
+      if: steps.prettier.outputs.status == 'failure' || steps.eslint.outputs.status == 'failure'
+      run: exit 1
