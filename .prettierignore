@@ -1,0 +1,10 @@
+# Github
+.github
+
+# Project
+build
+coverage
+node_modules
+.vscode
+
+*.html
