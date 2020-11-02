@@ -17,6 +17,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier --write .",
+    "prettier-check": "prettier --check .",
     "eslint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "eslintConfig": {

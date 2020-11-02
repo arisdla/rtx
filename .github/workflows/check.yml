@@ -1,9 +1,9 @@
-name: Code Check
+name: Check Code
 
 on: [push, pull_request]
 
 jobs:
-  build:
+  check:
 
     runs-on: ubuntu-latest
 
@@ -20,5 +20,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install Modules
       run: yarn
+    - name: Check Prettier
+      run: yarn prettier-check
     - name: Run ESLint
       run: yarn eslint
