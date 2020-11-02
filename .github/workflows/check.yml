@@ -23,7 +23,7 @@ jobs:
       id: prettier
       run: yarn prettier-check
 
-  eslin-check:
+  eslint-check:
     runs-on: ubuntu-latest
     strategy:
       matrix:
